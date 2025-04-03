@@ -113,7 +113,10 @@ export default async function handler(request) {
     const textEndTime = Date.now();
     const textDuration = (textEndTime - textStartTime) / 1000;
     console.log(`[${new Date().toISOString()}] response.text() 呼び出し完了。所要時間: ${textDuration.toFixed(2)}秒`); // ★ text()所要時間ログ
+    console.log(`[${new Date().toISOString()}] レスポンスサイズ: ${responseText.length} 文字`);
 
+    // ★★★ return 直前のログを追加 ★★★
+    console.log(`[${new Date().toISOString()}] レスポンスオブジェクトを生成して返却処理を開始します...`);
     return new Response(responseText, { // 取得したテキストを使用
       status: 200,
       headers: { 'Content-Type': 'application/json' },
