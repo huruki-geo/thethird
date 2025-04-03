@@ -98,7 +98,15 @@ export default async function handler(request) {
     // ... (Gemini API呼び出し処理はそのまま) ...
     console.log("サーバーレス関数: Gemini API呼び出し開始...");
     const result = await modelInstance.generateContent(prompt);
-    // ... (以降のコード) ...
+    const response = result.response;
+    console.log("サーバーレス関数: Gemini API呼び出し成功");
+
+    // APIからの応答テキスト (JSON文字列のはず) をクライアントに返す
+    // Content-Typeを正しく設定することが重要
+    return new Response(response.text(), {
+      status: 200, // OK
+      headers: { 'Content-Type': 'application/json' },
+    });
 
   } catch (error) {
     console.error("リクエスト処理中のエラー:", error); // ★エラーログは重要★
