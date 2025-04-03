@@ -65,35 +65,54 @@ export default async function handler(request) {
   }
 
   try {
-    const { prompt } = await request.json();
+    // ▼▼▼ リクエストボディのパース方法を修正 ▼▼▼
+    let body = '';
+    // Node.jsのストリームとしてデータを読み取る
+    // request オブジェクトは AsyncIterable であることを期待
+    for await (const chunk of request) {
+      body += Buffer.isBuffer(chunk) ? chunk.toString() : chunk; // Bufferなら文字列に変換
+    }
+
+    // ボディが空でないかチェック
+    if (!body) {
+      console.error("リクエストボディが空です。");
+      return new Response(JSON.stringify({ error: 'リクエストボディが空です' }), {
+        status: 400, // Bad Request
+        headers: { 'Content-Type': 'application/json' },
+      });
+    }
+
+    // 読み取ったボディ文字列をJSONとしてパース
+    const requestData = JSON.parse(body);
+    const { prompt } = requestData; // パースしたオブジェクトから prompt を取得
+    // ▲▲▲ 修正ここまで ▲▲▲
 
     if (!prompt || typeof prompt !== 'string' || prompt.trim() === '') {
+      console.error("リクエストに有効なプロンプトが含まれていません。", requestData);
       return new Response(JSON.stringify({ error: '有効なプロンプトが必要です' }), {
         status: 400, // Bad Request
         headers: { 'Content-Type': 'application/json' },
       });
     }
 
-    // ★ 初期化済みの modelInstance を使用 ★
+    // ... (Gemini API呼び出し処理はそのまま) ...
     console.log("サーバーレス関数: Gemini API呼び出し開始...");
     const result = await modelInstance.generateContent(prompt);
-    const response = result.response;
-    console.log("サーバーレス関数: Gemini API呼び出し成功");
-
-    return new Response(response.text(), {
-      status: 200, // OK
-      headers: { 'Content-Type': 'application/json' },
-    });
+    // ... (以降のコード) ...
 
   } catch (error) {
-    console.error("リクエスト処理中のエラー:", error);
+    console.error("リクエスト処理中のエラー:", error); // ★エラーログは重要★
+
     let errorMessage = "問題の生成中にサーバー側でエラーが発生しました。";
     let statusCode = 500;
 
-    // エラーの種類に応じたハンドリング (既存のコード)
-    if (error instanceof SyntaxError) { /* ... */ }
+    // ★ JSON.parse() 失敗時のエラーハンドリングを追加 ★
+    if (error instanceof SyntaxError && error.message.includes('JSON.parse')) {
+        errorMessage = "リクエストボディの形式が無効です。有効なJSONではありません。";
+        statusCode = 400; // Bad Request
+    }
+    // ... (既存のエラーハンドリング) ...
     else if (error.message) { /* ... */ }
-    // ...
 
     const errorResponse = { error: errorMessage };
     return new Response(JSON.stringify(errorResponse), {
