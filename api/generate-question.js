@@ -1,4 +1,6 @@
 // /api/generate-question.js
+
+console.log(`[${new Date().toISOString()}] MODULE START: /api/generate-question.js`);
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // グローバルスコープでクライアントインスタンスと初期化エラーを保持
