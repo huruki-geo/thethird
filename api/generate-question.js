@@ -9,6 +9,8 @@ let initializationError = null; // 初期化エラーが発生した場合にセ
 // --- 初期化処理 ---
 // モジュールがロードされたときに一度だけ実行される
 try {
+    console.log(`[${new Date().toISOString()}] クライアント初期化開始...`); // ★追加
+  const initStartTime = Date.now(); // ★追加
   const apiKey = process.env.VITE_GEMINI_API_KEY;
   if (!apiKey) {
     // ★ エラーをスローするか、エラーオブジェクトをセット ★
@@ -21,6 +23,8 @@ try {
       responseMimeType: "application/json",
     },
   });
+  const initEndTime = Date.now(); // ★追加
+  console.log(`[${new Date().toISOString()}] クライアント初期化完了。所要時間: ${(initEndTime - initStartTime) / 1000}秒`); // ★追加
   console.log("Geminiクライアントの初期化に成功しました。");
 } catch (error) {
   console.error("Geminiクライアントの初期化中にエラーが発生しました:", error);
