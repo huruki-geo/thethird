@@ -1,0 +1,137 @@
+#root {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-family: sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.app-container {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #2c3e50;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.input-form textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* paddingを含めた幅計算に */
+  font-size: 1rem;
+  min-height: 80px;
+}
+
+.input-form button {
+  display: block;
+  width: 100%;
+  padding: 0.8rem 1.5rem;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.input-form button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+.input-form button:hover:not(:disabled) {
+  background-color: #2980b9;
+}
+
+.loading-message,
+.error-message {
+  text-align: center;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.loading-message {
+  color: #3498db;
+  background-color: #eaf5ff;
+  border: 1px solid #bde0ff;
+}
+
+.error-message {
+  color: #e74c3c;
+  background-color: #fdedec;
+  border: 1px solid #fadbd8;
+}
+
+.question-display {
+  margin-top: 2rem;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden; /* 子要素の角丸を反映 */
+}
+
+.question-section {
+  padding: 1.2rem 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+
+.question-section:last-child {
+  border-bottom: none;
+}
+
+.question-section h3 {
+  margin-top: 0;
+  margin-bottom: 0.8rem;
+  color: #2980b9;
+  font-size: 1.1rem;
+}
+
+.question-section.theme { background-color: #f4f9fd; }
+.question-section.leading-sentence { background-color: #fefefe; }
+.question-section.questions { background-color: #f8f8f8; }
+.question-section.answers { background-color: #fefefe; }
+.question-section.explanation { background-color: #f8f8f8; }
+
+
+.question-display ul,
+.question-display ol {
+  padding-left: 1.8rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+
+.question-display li {
+  margin-bottom: 0.5rem;
+  line-height: 1.6;
+}
+
+.answer-toggle {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.answer-toggle:hover {
+  background-color: #27ae60;
+}
+
+.hidden-answers {
+  font-style: italic;
+  color: #777;
+}
