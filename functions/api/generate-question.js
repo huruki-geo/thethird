@@ -3,7 +3,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 // Pages Functions では、環境変数(Secrets含む)は `context.env` でアクセス
-async function handleRequest(context) {
+export async function handleRequest(context) {
   const { request, env } = context;
 
   // POSTメソッド以外はエラー
