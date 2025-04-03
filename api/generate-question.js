@@ -3,6 +3,11 @@
 console.log(`[${new Date().toISOString()}] MODULE START: /api/generate-question.js`);
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
+
+
+// --- ハンドラ関数 ---
+export default async function handler(request) {
+    
 // グローバルスコープでクライアントインスタンスと初期化エラーを保持
 let genAIInstance = null;
 let modelInstance = null;
@@ -10,10 +15,6 @@ let initializationError = null; // 初期化エラーが発生した場合にセ
 
 // --- 初期化処理 ---
 // モジュールがロードされたときに一度だけ実行される
-
-
-// --- ハンドラ関数 ---
-export default async function handler(request) {
     try {
         console.log(`[${new Date().toISOString()}] クライアント初期化開始...`); // ★追加
       const initStartTime = Date.now(); // ★追加
