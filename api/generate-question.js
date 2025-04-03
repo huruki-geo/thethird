@@ -117,10 +117,10 @@ export default async function handler(request) {
 
     // ★★★ return 直前のログを追加 ★★★
     console.log(`[${new Date().toISOString()}] レスポンスオブジェクトを生成して返却処理を開始します...`);
-    return new Response(responseText, { // 取得したテキストを使用
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    return new Response(JSON.stringify({ success: true, message: "Fixed response test" }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      });
 
   } catch (error) {
     console.error("リクエスト処理中のエラー:", error); // ★エラーログは重要★
