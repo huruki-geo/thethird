@@ -96,15 +96,26 @@ export default async function handler(request) {
     }
 
     // ... (Gemini API呼び出し処理はそのまま) ...
-    console.log("サーバーレス関数: Gemini API呼び出し開始...");
+    console.log(`[${new Date().toISOString()}] Gemini API呼び出し開始...`);
+    const startTime = Date.now(); // 開始時刻を記録
+
     const result = await modelInstance.generateContent(prompt);
     const response = result.response;
-    console.log("サーバーレス関数: Gemini API呼び出し成功");
 
-    // APIからの応答テキスト (JSON文字列のはず) をクライアントに返す
-    // Content-Typeを正しく設定することが重要
-    return new Response(response.text(), {
-      status: 200, // OK
+    const endTime = Date.now(); // 終了時刻を記録
+    const duration = (endTime - startTime) / 1000; // 所要時間（秒）
+    console.log(`[${new Date().toISOString()}] Gemini API呼び出し成功。所要時間: ${duration.toFixed(2)}秒`); // ★ 所要時間ログ
+
+    // ★ response.text() の処理時間も計測 ★
+    console.log(`[${new Date().toISOString()}] response.text() 呼び出し開始...`);
+    const textStartTime = Date.now();
+    const responseText = response.text(); // テキスト取得
+    const textEndTime = Date.now();
+    const textDuration = (textEndTime - textStartTime) / 1000;
+    console.log(`[${new Date().toISOString()}] response.text() 呼び出し完了。所要時間: ${textDuration.toFixed(2)}秒`); // ★ text()所要時間ログ
+
+    return new Response(responseText, { // 取得したテキストを使用
+      status: 200,
       headers: { 'Content-Type': 'application/json' },
     });
 
